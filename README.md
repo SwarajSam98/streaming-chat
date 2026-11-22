@@ -811,49 +811,7 @@ It disables output buffering so you can see events arriving live.
 
 The HTML interface uses JavaScript `fetch()` to read the stream, because `/chat/stream` accepts a POST request with JSON.
 
-### Demo C — Session history: `GET /sessions/{session_id}/messages`
 
-First send two messages using the same session ID:
-
-```text
-github-demo-01
-```
-
-Then open:
-
-```text
-http://127.0.0.1:8000/sessions/github-demo-01/messages
-```
-
-This endpoint retrieves the stored conversation history.
-
-You can restart FastAPI and retrieve the same session again to demonstrate database persistence.
-
-### Demo D — Health and configuration
-
-```bash
-curl http://127.0.0.1:8000/health
-curl http://127.0.0.1:8000/config
-```
-
-A successful `/health` response confirms FastAPI is reachable. It does not necessarily prove that MySQL and Ollama are healthy unless your health endpoint explicitly checks those services.
-
-### Demo E — Validation and errors
-
-In `POST /chat`, send:
-
-```json
-{
-  "message": "Hello",
-  "temperature": 7
-}
-```
-
-The earlier POC accepts temperatures from 0 through 2, so this produces an HTTP 422 validation error.
-
-If Ollama is unavailable or the selected model is not installed, the application should report a provider error.
-
-During streaming, an error can be returned as an SSE `event: error` after the HTTP response has already started.
 
 ## MySQL conversation memory
 
